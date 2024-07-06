@@ -1,4 +1,4 @@
-module github.com/skippyza/irstats
+module github.com/metroshica/irstats
 
 go 1.14
 

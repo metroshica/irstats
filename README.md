@@ -2,8 +2,8 @@
 
 [![Linters](https://github.com/SkippyZA/irstats/actions/workflows/lint.yml/badge.svg?branch=master)](https://github.com/SkippyZA/irstats/actions/workflows/lint.yml)
 [![Test](https://github.com/SkippyZA/irstats/actions/workflows/test.yml/badge.svg)](https://github.com/SkippyZA/irstats/actions/workflows/test.yml)
-[![Go Reference](https://pkg.go.dev/badge/github.com/skippyza/irstats.svg)](https://pkg.go.dev/github.com/skippyza/irstats)
-[![Go Report Card](https://goreportcard.com/badge/github.com/skippyza/irstats)](https://goreportcard.com/report/github.com/skippyza/irstats)
+[![Go Reference](https://pkg.go.dev/badge/github.com/metroshica/irstats.svg)](https://pkg.go.dev/github.com/metroshica/irstats)
+[![Go Report Card](https://goreportcard.com/badge/github.com/metroshica/irstats)](https://goreportcard.com/report/github.com/metroshica/irstats)
 [![codecov](https://codecov.io/gh/SkippyZA/irstats/branch/master/graph/badge.svg?token=8S1FT6QP50)](https://codecov.io/gh/SkippyZA/irstats)
 
 This package is an API "wrapper" for retrieving data from iRacing. We use the term "wrapper" loosely as iRacing does not yet have an officially documented API; However, we've done our best to build something that might resemble one.
@@ -13,7 +13,7 @@ The goal of this project is to provide access to iRacing stats in a manner that 
 ## Usage
 
 ```go
-import "github.com/skippyza/irstats"
+import "github.com/metroshica/irstats"
 ```
 
 Construct a new irstats client, then make a request to fetch data from iRacing.

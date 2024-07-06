@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/skippyza/irstats"
-	"github.com/skippyza/irstats/ref"
+	"github.com/metroshica/irstats"
+	"github.com/metroshica/irstats/ref"
 	"github.com/stretchr/testify/assert"
 )
 

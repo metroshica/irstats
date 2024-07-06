@@ -7,7 +7,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/skippyza/irstats"
+	"github.com/metroshica/irstats"
 )
 
 func setup(t *testing.T) (*http.ServeMux, *httptest.Server, *irstats.Client) {
