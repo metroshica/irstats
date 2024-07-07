@@ -61,7 +61,7 @@ func (lt boolean) IsValid() error {
 	case true, false:
 		return nil
 	}
-	return errors.New("Invalid boolean type")
+	return errors.New("invalid boolean type")
 }
 
 func (b boolean) String() string {
