@@ -16,7 +16,7 @@ const (
 )
 
 var (
-	ErrAuthenticationFailed = errors.New("Failed to authenticate with iRacing")
+	ErrAuthenticationFailed = errors.New("failed to authenticate with iRacing")
 )
 
 type Client struct {
@@ -30,7 +30,7 @@ type Client struct {
 
 func NewClient(username, password string, options ...ClientOptionFunc) (*Client, error) {
 	http := resty.New()
-	http.SetHostURL(defaultBaseURL)
+	http.SetBaseURL(defaultBaseURL)
 	http.SetRedirectPolicy(resty.NoRedirectPolicy())
 
 	c := &Client{
