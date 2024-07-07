@@ -16,3 +16,7 @@ dist/
 
 # Dependency directories
 vendor/
+
+# Development
+.idea/
+.vscode/
