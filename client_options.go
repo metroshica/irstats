@@ -18,3 +18,8 @@ func WithUserAgent(s string) ClientOptionFunc {
 		return nil
 	}
 }
+
+// GetUserAgent returns the user agent string used by the client.
+func (c *Client) GetUserAgent() string {
+	return c.userAgent
+}
