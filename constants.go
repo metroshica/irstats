@@ -11,7 +11,7 @@ type urlPath = string
 
 // iRacing API paths
 var (
-	URLPathLogin             = urlPath("/membersite/Login")
+	URLPathLogin             = urlPath("/auth")
 	URLPathSubSessionResults = urlPath(sitePath + "/GetSubsessionResults")
 	URLPathLastRaceStats     = urlPath(statsPath + "/GetLastRacesStats")
 	URLPathCarsDriven        = urlPath(statsPath + "/GetCarsDriven")
