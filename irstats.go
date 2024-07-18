@@ -6,13 +6,18 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"crypto/sha256"
+	"encoding/base64"
+	"strings"
+	"fmt"
+	"os"
 
 	resty "github.com/go-resty/resty/v2"
 )
 
 const (
 	defaultUserAgent = "go-irstats"
-	defaultBaseURL   = "https://members.iracing.com"
+	defaultBaseURL   = "https://members-ng.iracing.com"
 )
 
 var (
@@ -88,24 +93,55 @@ func (c *Client) do(path urlPath, values *url.Values, v interface{}) (*http.Resp
 	return rr, nil
 }
 
-func (c *Client) login() error {
-	// TODO: need to add in some locking so that we dont spam the auth
-	resp, _ := c.http.R().
-		SetFormData(map[string]string{
-			"username": c.username,
-			"password": c.password,
-		}).
-		Post(URLPathLogin)
+func (c *Client) Login() error {
+	// Convert email to lowercase
+	emailLower := strings.ToLower(c.username)
+
+	// Encode the password with the lowercase email
+	hash := sha256.New()
+	hash.Write([]byte(c.password + emailLower))
+	encodedPW := base64.StdEncoding.EncodeToString(hash.Sum(nil))
+
+	// Create the request body
+	body := map[string]string{
+		"email":    c.username,
+		"password": encodedPW,
+	}
+
+	// Send the POST request
+	resp, err := c.http.R().
+		SetHeader("Content-Type", "application/json").
+		SetHeader("User-Agent", c.userAgent).
+		SetBody(body).
+		Post("/auth")
+
+	if err != nil {
+		return fmt.Errorf("error making request: %w", err)
+	}
+
+	// Save the cookies to a file
+	cookieFile := "cookie-jar.txt"
+	f, err := os.Create(cookieFile)
+	if err != nil {
+		return fmt.Errorf("error creating cookie file: %w", err)
+	}
+	defer f.Close()
 
 	for _, cookie := range resp.Cookies() {
-		if cookie.Name == "irsso_membersv2" && len(cookie.Value) > 0 {
-			c.authenticated = true
-			return nil
+		_, err := f.WriteString(fmt.Sprintf("%s=%s\n", cookie.Name, cookie.Value))
+		if err != nil {
+			return fmt.Errorf("error writing to cookie file: %w", err)
 		}
 	}
 
-	c.authenticated = false
-	return ErrAuthenticationFailed
+	// Print the response body
+	fmt.Println(string(resp.Body()))
+	fmt.Println("Response Headers:")
+	for key, values := range resp.Header() {
+		fmt.Printf("%s: %s\n", key, values)
+	}
+
+	return nil
 }
 
 func (c *Client) assertLoggedIn() error {
@@ -113,5 +149,13 @@ func (c *Client) assertLoggedIn() error {
 		return nil
 	}
 
-	return c.login()
+	return c.Login()
+}
+
+func (c *Client) CheckLoggedIn() error {
+	if c.authenticated {
+		return nil
+	}
+
+	return c.Login()
 }
